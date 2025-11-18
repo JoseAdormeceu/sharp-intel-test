@@ -10,15 +10,6 @@ interface QuestionCardProps {
   onAnswerSelect: (answer: number) => void;
 }
 
-const getDifficultyLabel = (difficulty: string): string => {
-  const map: Record<string, string> = {
-    easy: "Fácil",
-    medium: "Médio",
-    hard: "Difícil",
-  };
-  return map[difficulty] || difficulty;
-};
-
 export const QuestionCard = ({
   question,
   selectedAnswer,
@@ -26,14 +17,14 @@ export const QuestionCard = ({
   onAnswerSelect,
 }: QuestionCardProps) => {
   return (
-    <Card className="shadow-soft">
+    <Card className="border-2">
       <CardContent className="pt-6">
         <div className="space-y-6">
           <div>
-            <h2 className="text-2xl font-semibold mb-2">{question.question}</h2>
-            <p className="text-sm text-muted-foreground">
-              Dificuldade: {getDifficultyLabel(question.difficulty)}
-            </p>
+            <div className="text-xs text-muted-foreground mb-2 uppercase tracking-wide">
+              {question.category}
+            </div>
+            <h2 className="text-xl font-semibold">{question.question}</h2>
           </div>
 
           <div className="space-y-3">
