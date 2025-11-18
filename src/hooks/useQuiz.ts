@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Question, getAllQuestions, Category } from "@/data/questions";
+import { Question, getRandomizedQuestions, Category } from "@/data/questions";
 
 export const useQuiz = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -12,8 +12,8 @@ export const useQuiz = () => {
   const [ageSet, setAgeSet] = useState(false);
 
   useEffect(() => {
-    const allQuestions = getAllQuestions();
-    setQuestions(allQuestions);
+    const randomQuestions = getRandomizedQuestions();
+    setQuestions(randomQuestions);
   }, []);
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -65,8 +65,8 @@ export const useQuiz = () => {
   };
 
   const handleRetake = () => {
-    const allQuestions = getAllQuestions();
-    setQuestions(allQuestions);
+    const randomQuestions = getRandomizedQuestions();
+    setQuestions(randomQuestions);
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
     setAnsweredQuestions(new Set());
