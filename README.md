@@ -1,73 +1,135 @@
-# Welcome to your Lovable project
+# 🧠 Sharp Intel Test  
+### Um teste de QI moderno, interativo e baseado em raciocínio lógico
 
-## Project info
+O **Sharp Intel Test** é um teste de QI online pensado para ser simples, rápido e acessível a qualquer pessoa.  
+Inspirado nos modelos tradicionais de raciocínio lógico e padrões visuais, o teste avalia diferentes facetas cognitivas e apresenta uma pontuação final baseada no número de respostas corretas.
 
-**URL**: https://lovable.dev/projects/7a3ae347-a426-4f48-935b-a680adb235e4
+---
 
-## How can I edit this code?
+## 📌 Funcionalidades Principais
 
-There are several ways of editing your application.
+- ✅ **50 perguntas únicas**, com várias categorias cognitivas  
+- 🔄 **Sistema que evita repetição de perguntas** quando o utilizador refaz o teste  
+- 📊 **Cálculo de pontuação baseado nas respostas certas**  
+- ⚡ **Interface moderna, rápida e fácil de usar**  
+- 📱 **Totalmente responsivo (telemóvel + desktop)**  
+- 🔒 **Sem recolha de dados pessoais**  
+- 🎯 **Feedback imediato no final do teste**
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7a3ae347-a426-4f48-935b-a680adb235e4) and start prompting.
+## 🧠 O que o teste avalia
 
-Changes made via Lovable will be committed automatically to this repo.
+O Sharp Intel Test inclui perguntas de várias áreas:
 
-**Use your preferred IDE**
+- **Raciocínio lógico**  
+- **Padrões visuais e matrizes**  
+- **Raciocínio espacial**  
+- **Sequências numéricas**  
+- **Memória e atenção**  
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+> ⚠️ *Nota:* Este teste é recreativo e não substitui avaliações profissionais por psicólogos credenciados.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🚀 Como funciona
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. O utilizador inicia o teste.  
+2. O sistema escolhe **50 perguntas aleatórias sem repetição**.  
+3. No final, o utilizador recebe:
+   - Pontuação total  
+   - Classificação relativa (abaixo da média, média, acima da média...)  
+   - Tempo total opcional (se ativado futuramente)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 📂 Estrutura do Projeto (exemplo)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+project/
+│
+├── public/
+│ ├── icons/
+│ └── assets/
+│
+├── src/
+│ ├── data/
+│ │ └── questions.js # As 50 perguntas
+│ ├── components/
+│ │ ├── QuestionCard.jsx
+│ │ └── Result.jsx
+│ ├── pages/
+│ │ ├── index.jsx # Landing page
+│ │ ├── teste-qi.jsx # Página do teste
+│ │ └── o-que-e-qi.jsx # Página explicativa
+│ └── utils/
+│ └── scoring.js # Lógica de pontuação
+│
+└── README.md
+
+yaml
+Copiar código
+
+---
+
+## 🔧 Tecnologias Usadas
+
+- **HTML, CSS e JavaScript**, ou  
+- **React / Next.js** (dependendo do setup)  
+- Lovable para assistência de IA no desenvolvimento  
+- GitHub para versionamento  
+- Netlify / Vercel para deploy
+
+*(Atualiza esta secção conforme o teu projeto.)*
+
+---
+
+## 🖥️ Deploy
+
+O projeto está disponível em:
+
+👉 **URL do website:** _colocar aqui_  
+👉 **Deploy automático:** via Netlify / Vercel / GitHub Pages
+
+---
+
+## 🛠️ Como correr localmente
+
+```bash
+git clone https://github.com/JoseAdormeceu/sharp-intel-test
+cd sharp-intel-test
+npm install
 npm run dev
-```
+A aplicação ficará disponível em:
+http://localhost:3000
 
-**Edit a file directly in GitHub**
+🙌 Contribuições
+Contribuições são sempre bem-vindas!
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Faz fork do repositório
 
-**Use GitHub Codespaces**
+Cria uma branch
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Faz as alterações
 
-## What technologies are used for this project?
+Abre um Pull Request
 
-This project is built with:
+🧾 Licença
+Este projeto está licenciado sob a MIT License, permitindo uso livre desde que atribuída a fonte.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+❤️ Agradecimentos
+Obrigado a todos os que contribuíram com ideias, design e testes.
+Este projeto foi criado para ser uma forma divertida de estimular o cérebro e comparar habilidades cognitivas.
 
-## How can I deploy this project?
+yaml
+Copiar código
 
-Simply open [Lovable](https://lovable.dev/projects/7a3ae347-a426-4f48-935b-a680adb235e4) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+Se quiseres, crio também:
 
-Yes, you can!
+- versão com **badges (Netlify status + stars + license)**  
+- versão minimalista  
+- versão profissional tipo startup  
+- versão com screenshots  
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+É só dizeres!
