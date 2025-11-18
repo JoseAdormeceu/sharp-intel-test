@@ -68,3 +68,50 @@ const questionPool: Question[] = [
 ];
 
 export const getAllQuestions = (): Question[] => [...questionPool];
+
+const STORAGE_KEY = 'quiz_used_questions';
+const TOTAL_QUESTIONS = 15;
+
+const getUsedQuestions = (): number[] => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveUsedQuestions = (used: number[]): void => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(used));
+  } catch {
+    console.error('Failed to save used questions to localStorage');
+  }
+};
+
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+export const getRandomizedQuestions = (): Question[] => {
+  const usedIds = getUsedQuestions();
+  
+  let availableQuestions = questionPool.filter(q => !usedIds.includes(q.id));
+  
+  if (availableQuestions.length < TOTAL_QUESTIONS) {
+    availableQuestions = questionPool;
+  }
+  
+  const shuffled = shuffleArray(availableQuestions);
+  const selected = shuffled.slice(0, TOTAL_QUESTIONS);
+  
+  const newUsedIds = [...(availableQuestions.length < TOTAL_QUESTIONS ? [] : usedIds), ...selected.map(q => q.id)];
+  saveUsedQuestions(newUsedIds);
+  
+  return selected;
+};
