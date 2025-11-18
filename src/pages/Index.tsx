@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Play } from "lucide-react";
+import { Play, Info } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 
 const Index = () => {
@@ -19,12 +19,21 @@ const Index = () => {
               </p>
             </div>
 
-            <Link to="/quiz">
-              <Button size="lg" className="text-lg px-12 py-6">
-                <Play className="w-5 h-5 mr-2" />
-                Iniciar Teste
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link to="/quiz">
+                <Button size="lg" className="text-lg px-12 py-6">
+                  <Play className="w-5 h-5 mr-2" />
+                  Iniciar Teste
+                </Button>
+              </Link>
+              
+              <Link to="/o-que-e-qi">
+                <Button size="lg" variant="outline" className="text-lg px-12 py-6">
+                  <Info className="w-5 h-5 mr-2" />
+                  O que é o QI?
+                </Button>
+              </Link>
+            </div>
 
             <div className="grid grid-cols-3 gap-8 pt-12 max-w-lg mx-auto">
               <div className="space-y-2">
