@@ -1,27 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Brain, History, Target } from "lucide-react";
+import { PageLayout } from "@/components/layout/PageLayout";
+import { Play } from "lucide-react";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-            IQ Test
-          </Link>
-          <div className="flex gap-4">
-            <Link to="/about">
-              <Button variant="ghost">About Us</Button>
-            </Link>
-            <Link to="/quiz">
-              <Button>Take Quiz</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      <main className="container mx-auto px-4 py-16">
+    <PageLayout>
+      <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto space-y-16">
           <section className="text-center space-y-4">
             <h1 className="text-5xl font-bold bg-gradient-hero bg-clip-text text-transparent">
@@ -87,49 +73,42 @@ const About = () => {
             </div>
             <div className="prose prose-lg max-w-none text-foreground">
               <p className="text-muted-foreground leading-relaxed">
-                O nosso teste de QI foi cuidadosamente desenvolvido para oferecer uma avaliação 
-                abrangente e precisa das suas capacidades cognitivas. Utilizamos uma metodologia 
-                baseada em princípios científicos estabelecidos, com questões organizadas em 
-                diferentes níveis de dificuldade.
+                O nosso teste de QI foi cuidadosamente desenvolvido com base em metodologias 
+                comprovadas de avaliação cognitiva. Ele apresenta uma variedade de questões 
+                que avaliam diferentes aspetos da inteligência, incluindo:
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Cada sessão de teste apresenta questões selecionadas aleatoriamente de uma ampla 
-                base de dados, garantindo que cada experiência seja única e justa. As perguntas 
-                avaliam diversos aspectos da inteligência, incluindo:
-              </p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+              <ul className="text-muted-foreground space-y-2 list-disc list-inside">
                 <li>Raciocínio lógico e dedutivo</li>
                 <li>Reconhecimento de padrões</li>
-                <li>Habilidades matemáticas</li>
-                <li>Compreensão verbal e vocabulário</li>
-                <li>Raciocínio espacial</li>
-                <li>Memória de trabalho</li>
+                <li>Resolução de problemas matemáticos</li>
+                <li>Compreensão verbal e analógica</li>
+                <li>Pensamento abstrato</li>
               </ul>
-              <p className="text-muted-foreground leading-relaxed">
-                O sistema de pontuação adapta-se dinamicamente ao seu desempenho, oferecendo 
-                uma estimativa precisa do seu QI ao final do teste. Os resultados são apresentados 
-                de forma clara e compreensível, com contexto sobre o que significam no espectro geral 
-                da inteligência humana.
+              <p className="text-muted-foreground leading-relaxed mt-4">
+                Com 15 perguntas cuidadosamente selecionadas em três níveis de dificuldade, 
+                o teste proporciona uma avaliação equilibrada do seu QI em aproximadamente 15 minutos. 
+                Cada pergunta foi desenhada para desafiar capacidades específicas, oferecendo uma 
+                visão abrangente das suas habilidades cognitivas.
               </p>
             </div>
           </section>
 
-          <section className="text-center pt-8">
+          <section className="bg-gradient-card border border-border rounded-2xl p-8 text-center space-y-6">
+            <h2 className="text-3xl font-bold">Pronto para começar?</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Descubra o seu potencial cognitivo e compare-se com a população global. 
+              O teste é gratuito, rápido e fornece resultados imediatos.
+            </p>
             <Link to="/quiz">
-              <Button size="lg" className="text-lg px-8 py-6">
-                Começar o Teste Agora
+              <Button size="lg" className="text-lg px-8 py-6 gap-2">
+                <Play className="w-5 h-5" />
+                Iniciar Teste de QI
               </Button>
             </Link>
           </section>
         </div>
-      </main>
-
-      <footer className="border-t border-border mt-16 py-8">
-        <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>© 2024 IQ Test. Todos os direitos reservados.</p>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 

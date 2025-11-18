@@ -1,33 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Brain, Info, Play } from "lucide-react";
+import { PageLayout } from "@/components/layout/PageLayout";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-            IQ Test
-          </div>
-          <div className="flex gap-4">
-            <Link to="/about">
-              <Button variant="ghost" className="gap-2">
-                <Info className="w-4 h-4" />
-                About Us
-              </Button>
-            </Link>
-            <Link to="/quiz">
-              <Button className="gap-2">
-                <Play className="w-4 h-4" />
-                Take Quiz
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      <main className="container mx-auto px-4">
+    <PageLayout>
+      <div className="container mx-auto px-4">
         <section className="min-h-[calc(100vh-80px)] flex items-center justify-center py-20">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="space-y-6">
@@ -86,14 +65,8 @@ const Index = () => {
             </div>
           </div>
         </section>
-      </main>
-
-      <footer className="border-t border-border py-8">
-        <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>© 2024 IQ Test. Todos os direitos reservados.</p>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </PageLayout>
   );
 };
 
