@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useQuiz } from "@/hooks/useQuiz";
 import { QuestionCard } from "@/components/quiz/QuestionCard";
 import { ResultsDisplay } from "@/components/quiz/ResultsDisplay";
-import { calculateIQ, getIQCategory, getIQDescription } from "@/utils/iqCalculator";
+import { calculateIQ } from "@/utils/iqCalculator";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 
 const Quiz = () => {
   const {
@@ -17,18 +20,75 @@ const Quiz = () => {
     answeredQuestions,
     totalScore,
     maxScore,
+    scoresByCategory,
     showResult,
     progress,
+    age,
+    ageSet,
     handleAnswerSelect,
     handleNext,
     handleRetake,
+    handleSetAge,
   } = useQuiz();
+
+  const [ageInput, setAgeInput] = useState("25");
+
+  if (!ageSet) {
+    return (
+      <PageLayout>
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-md mx-auto">
+            <Card>
+              <CardContent className="pt-6 space-y-6">
+                <div className="text-center space-y-2">
+                  <h2 className="text-2xl font-bold">Teste de QI</h2>
+                  <p className="text-muted-foreground">
+                    Para calcular o seu QI com precisão, precisamos da sua idade
+                  </p>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">
+                      Qual é a sua idade?
+                    </label>
+                    <Input
+                      type="number"
+                      min="5"
+                      max="100"
+                      value={ageInput}
+                      onChange={(e) => setAgeInput(e.target.value)}
+                      className="text-center text-lg"
+                      placeholder="Digite sua idade"
+                    />
+                  </div>
+                  
+                  <Button 
+                    onClick={() => {
+                      const parsedAge = parseInt(ageInput);
+                      if (parsedAge >= 5 && parsedAge <= 100) {
+                        handleSetAge(parsedAge);
+                      }
+                    }}
+                    className="w-full"
+                    disabled={!ageInput || parseInt(ageInput) < 5 || parseInt(ageInput) > 100}
+                  >
+                    Começar Teste
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (questions.length === 0) {
     return (
       <PageLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="animate-pulse text-primary text-xl">
+          <div className="animate-pulse text-xl">
             A carregar perguntas...
           </div>
         </div>
@@ -37,16 +97,12 @@ const Quiz = () => {
   }
 
   if (showResult) {
-    const iq = calculateIQ(totalScore, maxScore);
-    const category = getIQCategory(iq);
-    const description = getIQDescription(iq);
+    const iqResult = calculateIQ(scoresByCategory, age);
 
     return (
       <PageLayout>
         <ResultsDisplay
-          iq={iq}
-          category={category}
-          description={description}
+          iqResult={iqResult}
           totalScore={totalScore}
           maxScore={maxScore}
           onRetake={handleRetake}
@@ -68,7 +124,7 @@ const Quiz = () => {
                 Voltar
               </Button>
             </Link>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm">
               Questão {currentQuestionIndex + 1} de {questions.length}
             </div>
           </div>
@@ -82,10 +138,7 @@ const Quiz = () => {
             onAnswerSelect={handleAnswerSelect}
           />
 
-          <div className="flex justify-between items-center pt-4">
-            <div className="text-sm text-muted-foreground">
-              Pontuação atual: <span className="font-semibold text-foreground">{totalScore}</span>
-            </div>
+          <div className="flex justify-end items-center pt-4">
             <Button
               onClick={handleNext}
               disabled={!isAnswered}
