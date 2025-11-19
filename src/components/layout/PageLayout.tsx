@@ -1,16 +1,17 @@
-import { ReactNode } from "react";
 import { Navigation } from "./Navigation";
 import { Footer } from "./Footer";
 
 interface PageLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const PageLayout = ({ children }: PageLayoutProps) => {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background font-sans antialiased">
       <Navigation />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 container py-6 md:py-10">
+        {children}
+      </main>
       <Footer />
     </div>
   );
