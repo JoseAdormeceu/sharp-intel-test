@@ -13,16 +13,21 @@ export const Navigation = () => {
 
   return (
     <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-      <div className="container flex h-14 items-center justify-between">
-        <Link to="/" className="mr-6 flex items-center space-x-2 font-bold text-xl">
-          <span>UniQuiz</span>
+      <div className="container flex h-16 items-center justify-between">
+        <Link to="/" className="mr-6 flex items-center space-x-3">
+          <img
+            src="/logo.jpg"
+            alt="Logo UniQuiz"
+            className="h-10 w-10 rounded-md object-cover"
+          />
+          <span className="font-bold text-xl">UniQuiz</span>
         </Link>
-        
+
         <div className="flex gap-2 md:gap-4">
           {links.map((link) => (
-            <Button 
-              key={link.href} 
-              variant={location.pathname === link.href ? "secondary" : "ghost"} 
+            <Button
+              key={link.href}
+              variant={location.pathname === link.href ? "secondary" : "ghost"}
               asChild
               className="text-sm"
             >

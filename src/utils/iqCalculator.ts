@@ -16,28 +16,20 @@ export interface IQResult {
   explanation: string;
 }
 
-// Função para calcular z-score e converter para escala de QI
+// Função para calcular QI usando a fórmula simples
 const calculateStandardizedScore = (rawScore: number, maxScore: number): number => {
+  // Calcular percentagem de acertos
   const percentage = (rawScore / maxScore) * 100;
-  
-  // Converter percentagem para z-score (assumindo distribuição normal)
-  // 50% = z-score 0 (média)
-  // 84% = z-score 1 (1 desvio padrão)
-  // 16% = z-score -1 (-1 desvio padrão)
-  
-  let zScore: number;
-  if (percentage >= 50) {
-    // Acima da média
-    zScore = ((percentage - 50) / 34); // 84% - 50% = 34%
-  } else {
-    // Abaixo da média
-    zScore = -((50 - percentage) / 34);
-  }
-  
-  // Converter z-score para QI: média = 100, desvio padrão = 15
-  const standardizedScore = 100 + (zScore * 15);
-  
-  return Math.round(Math.max(55, Math.min(145, standardizedScore)));
+
+  // Converter percentagem para QI usando a fórmula:
+  // QI = 100 + ((percentagem - 50) / 50) * 15
+  // Isso garante que:
+  // - 50% de acertos = QI 100 (média)
+  // - 100% de acertos = QI 115
+  // - 0% de acertos = QI 85
+  const iq = 100 + ((percentage - 50) / 50) * 15;
+
+  return Math.round(Math.max(55, Math.min(145, iq)));
 };
 
 // Ajuste por idade (simplificado)
