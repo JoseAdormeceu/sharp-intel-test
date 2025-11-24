@@ -9,7 +9,7 @@ import { ResultsDisplay } from "@/components/quiz/ResultsDisplay";
 import { calculateIQ } from "@/utils/iqCalculator";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Quiz = () => {
   const {
@@ -32,6 +32,14 @@ const Quiz = () => {
   } = useQuiz();
 
   const [ageInput, setAgeInput] = useState("25");
+  const questionRef = useRef<HTMLDivElement>(null);
+
+  // Smooth scroll to top of question when changing questions
+  useEffect(() => {
+    if (questionRef.current) {
+      questionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [currentQuestionIndex]);
 
   if (!ageSet) {
     return (
@@ -116,7 +124,7 @@ const Quiz = () => {
   return (
     <PageLayout>
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="max-w-3xl mx-auto space-y-6" ref={questionRef}>
           <div className="flex items-center justify-between">
             <Link to="/">
               <Button variant="ghost" className="gap-2">

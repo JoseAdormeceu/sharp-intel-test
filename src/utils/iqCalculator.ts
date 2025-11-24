@@ -16,19 +16,16 @@ export interface IQResult {
   explanation: string;
 }
 
-// Função para calcular QI usando a fórmula simples
+// Função para calcular QI usando a fórmula especificada
 const calculateStandardizedScore = (rawScore: number, maxScore: number): number => {
   // Calcular percentagem de acertos
   const percentage = (rawScore / maxScore) * 100;
 
   // Converter percentagem para QI usando a fórmula:
-  // QI = 100 + ((percentagem - 50) / 50) * 15
-  // Isso garante que:
-  // - 50% de acertos = QI 100 (média)
-  // - 100% de acertos = QI 115
-  // - 0% de acertos = QI 85
+  // qiCategoria = 100 + ((percentagemCategoria - 50)/50) * 15
   const iq = 100 + ((percentage - 50) / 50) * 15;
 
+  // Permitir variação natural sem limites artificiais de 85-115
   return Math.round(Math.max(55, Math.min(145, iq)));
 };
 
@@ -61,15 +58,15 @@ export const calculateIQ = (
     }
   );
   
-  // Calcular QI total (média dos subtestes)
-  const averageStandardizedScore = 
-    subtestScores.reduce((sum, subtest) => sum + subtest.standardizedScore, 0) / 
+  // Calcular QI total (média simples dos subtestes, sem ajuste de idade forçado)
+  // O QI final é a média das 5 categorias
+  const averageStandardizedScore =
+    subtestScores.reduce((sum, subtest) => sum + subtest.standardizedScore, 0) /
     subtestScores.length;
-  
-  // Aplicar ajuste de idade
-  const ageAdjustment = getAgeAdjustment(age);
+
+  // QI final arredondado, baseado no desempenho real do utilizador
   const totalIQ = Math.round(
-    Math.max(55, Math.min(145, averageStandardizedScore + ageAdjustment))
+    Math.max(55, Math.min(145, averageStandardizedScore))
   );
   
   // Classificação
@@ -77,7 +74,7 @@ export const calculateIQ = (
   const description = getIQDescription(totalIQ);
   
   // Gerar explicação detalhada
-  const explanation = generateExplanation(subtestScores, age, ageAdjustment, totalIQ);
+  const explanation = generateExplanation(subtestScores, totalIQ);
   
   return {
     totalIQ,
@@ -90,37 +87,30 @@ export const calculateIQ = (
 
 const generateExplanation = (
   subtestScores: SubtestScore[],
-  age: number,
-  ageAdjustment: number,
   totalIQ: number
 ): string => {
   let explanation = "**Cálculo Detalhado do QI:**\n\n";
-  
+
   // Explicar cada subteste
   explanation += "**1. Pontuações por Categoria:**\n\n";
   subtestScores.forEach((subtest, index) => {
     explanation += `${index + 1}. **${subtest.category}**\n`;
     explanation += `   - Pontuação bruta: ${subtest.rawScore}/${subtest.maxScore} (${subtest.percentage}%)\n`;
-    explanation += `   - QI padronizado: ${subtest.standardizedScore}\n\n`;
+    explanation += `   - QI da categoria: ${subtest.standardizedScore}\n\n`;
   });
-  
+
   // Calcular média
   const average = subtestScores.reduce((sum, s) => sum + s.standardizedScore, 0) / subtestScores.length;
-  explanation += `**2. Média dos Subtestes:**\n`;
-  explanation += `   (${subtestScores.map(s => s.standardizedScore).join(" + ")}) ÷ ${subtestScores.length} = ${Math.round(average)}\n\n`;
-  
-  // Ajuste de idade
-  explanation += `**3. Ajuste por Idade (${age} anos):**\n`;
-  explanation += `   Pontuação base: ${Math.round(average)}\n`;
-  explanation += `   Ajuste de idade: ${ageAdjustment >= 0 ? '+' : ''}${ageAdjustment}\n`;
-  explanation += `   **QI Final: ${totalIQ}**\n\n`;
-  
+  explanation += `**2. QI Final (Média das 5 Categorias):**\n`;
+  explanation += `   (${subtestScores.map(s => s.standardizedScore).join(" + ")}) ÷ ${subtestScores.length} = **${totalIQ}**\n\n`;
+
   // Metodologia
   explanation += `**Metodologia:**\n`;
-  explanation += `- Cada categoria foi convertida para escala padronizada (média=100, desvio=15)\n`;
-  explanation += `- O QI total é a média dos 5 subtestes ajustada pela idade\n`;
-  explanation += `- Valores limitados entre 55 e 145 conforme escalas psicométricas padrão\n`;
-  
+  explanation += `- Cada pergunta vale 1 ponto\n`;
+  explanation += `- Para cada categoria: qiCategoria = 100 + ((percentagem - 50)/50) × 15\n`;
+  explanation += `- O QI final é a média aritmética das 5 categorias\n`;
+  explanation += `- O resultado reflete o seu desempenho real, sem ajustes artificiais\n`;
+
   return explanation;
 };
 

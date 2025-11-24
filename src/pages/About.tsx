@@ -1,8 +1,35 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Brain, History, Target } from "lucide-react";
+import { Brain, Users, Heart, Play } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { Play } from "lucide-react";
+
+const teamMembers = [
+  {
+    name: "José Moura",
+    role: "Developer",
+    avatar: "JM",
+  },
+  {
+    name: "Rui Cruzeiro",
+    role: "Product Owner",
+    avatar: "RC",
+  },
+  {
+    name: "Afonso Sobreira",
+    role: "Developer",
+    avatar: "AS",
+  },
+  {
+    name: "Afonso Rosa",
+    role: "Scrum Master",
+    avatar: "AR",
+  },
+  {
+    name: "João Fonseca",
+    role: "Developer",
+    avatar: "JF",
+  },
+];
 
 const About = () => {
   return (
@@ -11,31 +38,33 @@ const About = () => {
         <div className="max-w-4xl mx-auto space-y-16">
           <section className="text-center space-y-4">
             <h1 className="text-5xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              Sobre o Nosso Teste de QI
+              Sobre a Equipa
             </h1>
             <p className="text-xl text-muted-foreground">
-              Descubra o seu potencial cognitivo com precisão e confiança
+              Conheça as pessoas por trás do UniQuiz
             </p>
           </section>
 
           <section className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-lg bg-primary/10">
-                <Brain className="w-6 h-6 text-primary" />
+                <Heart className="w-6 h-6 text-primary" />
               </div>
-              <h2 className="text-3xl font-bold">O que é QI?</h2>
+              <h2 className="text-3xl font-bold">A Nossa História</h2>
             </div>
             <div className="prose prose-lg max-w-none text-foreground">
               <p className="text-muted-foreground leading-relaxed">
-                O Quociente de Inteligência (QI) é uma medida padronizada da capacidade cognitiva humana. 
-                Desenvolvido inicialmente no início do século XX, o QI avalia várias dimensões da inteligência, 
-                incluindo raciocínio lógico, capacidade de resolução de problemas, memória, compreensão verbal 
-                e habilidades espaciais.
+                O UniQuiz nasceu da paixão de uma equipa de estudantes e entusiastas da
+                psicologia cognitiva que acreditam que o conhecimento sobre as nossas próprias
+                capacidades intelectuais deve ser acessível a todos. Combinando conhecimentos
+                em desenvolvimento web, psicometria e design de experiência do utilizador,
+                criámos uma plataforma que torna a avaliação do QI simples, precisa e envolvente.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Um QI médio situa-se em torno de 100 pontos, com a maioria da população (cerca de 68%) 
-                pontuando entre 85 e 115. Pontuações acima de 130 são consideradas excepcionalmente altas, 
-                enquanto pontuações abaixo de 70 podem indicar desafios cognitivos que requerem atenção especial.
+                A nossa missão é desmistificar os testes de inteligência e proporcionar uma
+                ferramenta educativa que ajude as pessoas a compreender melhor as suas
+                capacidades cognitivas. Através de uma abordagem científica e uma interface
+                moderna, tornamos a avaliação do QI uma experiência acessível e informativa.
               </p>
             </div>
           </section>
@@ -43,52 +72,51 @@ const About = () => {
           <section className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-lg bg-secondary/10">
-                <History className="w-6 h-6 text-secondary" />
+                <Users className="w-6 h-6 text-secondary" />
               </div>
-              <h2 className="text-3xl font-bold">História do QI</h2>
+              <h2 className="text-3xl font-bold">A Nossa Equipa</h2>
             </div>
-            <div className="prose prose-lg max-w-none text-foreground">
-              <p className="text-muted-foreground leading-relaxed">
-                O conceito de teste de QI foi pioneiro pelo psicólogo francês Alfred Binet em 1905, 
-                que desenvolveu o primeiro teste prático de inteligência para identificar estudantes 
-                que precisavam de apoio educacional adicional. Sua abordagem revolucionária focava 
-                em medir habilidades cognitivas práticas em vez de características físicas.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Ao longo do século XX, o teste evoluiu significativamente. Lewis Terman, da 
-                Universidade de Stanford, adaptou o teste de Binet criando a escala Stanford-Binet, 
-                que introduziu o termo "Quociente de Inteligência". David Wechsler posteriormente 
-                desenvolveu testes que consideravam diferentes aspectos da inteligência, estabelecendo 
-                muitos dos padrões modernos de avaliação cognitiva que usamos hoje.
-              </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {teamMembers.map((member) => (
+                <div
+                  key={member.name}
+                  className="border border-border rounded-xl p-6 text-center space-y-4 bg-card hover:shadow-lg transition-shadow"
+                >
+                  <div className="w-20 h-20 mx-auto rounded-full bg-gradient-hero flex items-center justify-center text-white text-2xl font-bold">
+                    {member.avatar}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">{member.name}</h3>
+                    <p className="text-sm text-muted-foreground">{member.role}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
           <section className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-lg bg-accent/10">
-                <Target className="w-6 h-6 text-accent" />
+                <Brain className="w-6 h-6 text-accent" />
               </div>
               <h2 className="text-3xl font-bold">O Nosso Teste</h2>
             </div>
             <div className="prose prose-lg max-w-none text-foreground">
               <p className="text-muted-foreground leading-relaxed">
-                O nosso teste de QI foi cuidadosamente desenvolvido com base em metodologias 
-                comprovadas de avaliação cognitiva. Ele apresenta uma variedade de questões 
-                que avaliam diferentes aspetos da inteligência, incluindo:
+                O teste UniQuiz avalia cinco áreas fundamentais da inteligência:
               </p>
               <ul className="text-muted-foreground space-y-2 list-disc list-inside">
-                <li>Raciocínio lógico e dedutivo</li>
-                <li>Reconhecimento de padrões</li>
-                <li>Resolução de problemas matemáticos</li>
-                <li>Compreensão verbal e analógica</li>
-                <li>Pensamento abstrato</li>
+                <li>Raciocínio lógico - capacidade de dedução e pensamento estruturado</li>
+                <li>Raciocínio verbal - compreensão de linguagem e analogias</li>
+                <li>Raciocínio matemático - resolução de problemas numéricos</li>
+                <li>Raciocínio espacial - visualização e manipulação mental de formas</li>
+                <li>Memória e atenção - capacidade de reter e processar informação</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                Com 15 perguntas cuidadosamente selecionadas em três níveis de dificuldade, 
-                o teste proporciona uma avaliação equilibrada do seu QI em aproximadamente 15 minutos. 
-                Cada pergunta foi desenhada para desafiar capacidades específicas, oferecendo uma 
-                visão abrangente das suas habilidades cognitivas.
+                Cada categoria é avaliada individualmente, e o seu QI final é calculado
+                como a média ponderada das cinco áreas, ajustada pela idade. Utilizamos
+                metodologias baseadas em escalas psicométricas reconhecidas internacionalmente,
+                garantindo resultados precisos e significativos.
               </p>
             </div>
           </section>
@@ -96,8 +124,8 @@ const About = () => {
           <section className="bg-gradient-card border border-border rounded-2xl p-8 text-center space-y-6">
             <h2 className="text-3xl font-bold">Pronto para começar?</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Descubra o seu potencial cognitivo e compare-se com a população global. 
-              O teste é gratuito, rápido e fornece resultados imediatos.
+              Descubra o seu potencial cognitivo e veja como se compara.
+              O teste é gratuito, rápido e fornece resultados detalhados imediatos.
             </p>
             <Link to="/quiz">
               <Button size="lg" className="text-lg px-8 py-6 gap-2">
