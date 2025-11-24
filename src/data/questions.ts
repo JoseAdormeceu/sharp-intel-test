@@ -69,9 +69,12 @@ const questionPool: Question[] = [
 
 export const getAllQuestions = (): Question[] => [...questionPool];
 
-const STORAGE_KEY = 'quiz_used_questions';
+const STORAGE_KEY = 'uniquiz_answered_questions';
 const TOTAL_QUESTIONS = 15;
 
+/**
+ * Obtém os IDs das perguntas já respondidas do localStorage
+ */
 const getUsedQuestions = (): number[] => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -81,14 +84,9 @@ const getUsedQuestions = (): number[] => {
   }
 };
 
-const saveUsedQuestions = (used: number[]): void => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(used));
-  } catch {
-    console.error('Failed to save used questions to localStorage');
-  }
-};
-
+/**
+ * Embaralha um array aleatoriamente
+ */
 const shuffleArray = <T,>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -98,20 +96,24 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return shuffled;
 };
 
+/**
+ * Retorna perguntas randomizadas, excluindo as já respondidas
+ * Não salva nada no localStorage - isso é feito apenas no final do quiz
+ */
 export const getRandomizedQuestions = (): Question[] => {
   const usedIds = getUsedQuestions();
-  
+
+  // Filtra perguntas disponíveis (não respondidas)
   let availableQuestions = questionPool.filter(q => !usedIds.includes(q.id));
-  
+
+  // Se não houver perguntas suficientes, reinicia o pool
   if (availableQuestions.length < TOTAL_QUESTIONS) {
     availableQuestions = questionPool;
   }
-  
+
+  // Embaralha e seleciona as perguntas
   const shuffled = shuffleArray(availableQuestions);
   const selected = shuffled.slice(0, TOTAL_QUESTIONS);
-  
-  const newUsedIds = [...(availableQuestions.length < TOTAL_QUESTIONS ? [] : usedIds), ...selected.map(q => q.id)];
-  saveUsedQuestions(newUsedIds);
-  
+
   return selected;
 };
