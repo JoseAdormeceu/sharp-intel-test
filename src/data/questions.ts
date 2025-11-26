@@ -52,7 +52,7 @@ const questionPool: Question[] = [
   { id: 35, category: "Raciocínio espacial", question: "Qual desenho completa o padrão? ⬛⬜⬛?", options: ["⬛", "⬜", "▲", "●"], correctAnswer: 1, points: 10 },
   { id: 36, category: "Raciocínio espacial", question: "Qual figura é simétrica?", options: ["△", "⬛", "▲", "◯"], correctAnswer: 3, points: 10 },
   { id: 37, category: "Raciocínio espacial", question: "Complete a sequência de figuras: ◼️◻️◼️?", options: ["◼️", "◻️", "▲", "●"], correctAnswer: 1, points: 10 },
-  { id: 38, category: "Raciocínio espacial", question: "Qual imagem está invertida?", options: ["Imagem 1", "Imagem 2", "Imagem 3", "Imagem 4"], correctAnswer: 1, points: 15 },
+  { id: 38, category: "Raciocínio espacial", question: "Se estiveres virado para o Norte e rodares 3 vezes 90° para a direita, para que direção ficas a olhar?", options: ["Norte", "Sul", "Este", "Oeste"], correctAnswer: 3, points: 15 },
   { id: 39, category: "Raciocínio espacial", question: "Rotacione mentalmente o L 90° → qual letra aparece?", options: ["Γ", "L", "┘", "⊂"], correctAnswer: 0, points: 15 },
   { id: 40, category: "Raciocínio espacial", question: "Qual figura é reflexo do original?", options: ["A", "B", "C", "D"], correctAnswer: 1, points: 15 },
   { id: 41, category: "Raciocínio espacial", question: "Se dobrarmos o papel X, qual padrão ficará visível?", options: ["A", "B", "C", "D"], correctAnswer: 2, points: 15 },
