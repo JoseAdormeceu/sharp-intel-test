@@ -1,15 +1,35 @@
 import { useState, useEffect } from "react";
 import { getRandomizedQuestions, Question, Category } from "@/data/questions";
 
-const STORAGE_KEY = "uniquiz_progress";
+// Storage key for answered question IDs only
+const ANSWERED_QUESTIONS_KEY = "uniquiz_answered_questions";
 
-interface StoredProgress {
-  answers: Record<number, number>;
-  currentQuestionIndex: number;
-  age: number;
-  ageSet: boolean;
-  timestamp: number;
-}
+/**
+ * Carrega os IDs das perguntas já respondidas do localStorage
+ */
+const loadAnsweredQuestionIds = (): number[] => {
+  try {
+    const stored = localStorage.getItem(ANSWERED_QUESTIONS_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (e) {
+    console.error("Erro ao carregar perguntas respondidas:", e);
+    return [];
+  }
+};
+
+/**
+ * Salva os IDs das perguntas respondidas no localStorage
+ * Deve ser chamado APENAS no final do quiz
+ */
+const saveAnsweredQuestionIds = (questionIds: number[]): void => {
+  try {
+    const existingIds = loadAnsweredQuestionIds();
+    const updatedIds = [...new Set([...existingIds, ...questionIds])];
+    localStorage.setItem(ANSWERED_QUESTIONS_KEY, JSON.stringify(updatedIds));
+  } catch (e) {
+    console.error("Erro ao salvar perguntas respondidas:", e);
+  }
+};
 
 export const useQuiz = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -21,71 +41,46 @@ export const useQuiz = () => {
   const [age, setAge] = useState<number>(25);
   const [ageSet, setAgeSet] = useState(false);
 
-  // Load randomized questions and restore progress from localStorage on mount
+  // Carrega perguntas randomizadas na inicialização
+  // As perguntas já respondidas são automaticamente excluídas por getRandomizedQuestions
   useEffect(() => {
     const randomQuestions = getRandomizedQuestions();
     setQuestions(randomQuestions);
-
-    // Try to restore progress from localStorage
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const progress: StoredProgress = JSON.parse(stored);
-        // Only restore if less than 24 hours old
-        const hoursSinceLastSave = (Date.now() - progress.timestamp) / (1000 * 60 * 60);
-        if (hoursSinceLastSave < 24) {
-          setAnswers(progress.answers);
-          setCurrentQuestionIndex(progress.currentQuestionIndex);
-          setAge(progress.age);
-          setAgeSet(progress.ageSet);
-          setAnsweredQuestions(new Set(Object.keys(progress.answers).map(Number)));
-          setSelectedAnswer(progress.answers[progress.currentQuestionIndex] ?? null);
-        } else {
-          // Clear old data
-          localStorage.removeItem(STORAGE_KEY);
-        }
-      } catch (e) {
-        console.error("Failed to restore quiz progress:", e);
-        localStorage.removeItem(STORAGE_KEY);
-      }
-    }
   }, []);
-
-  // Save progress to localStorage whenever it changes
-  useEffect(() => {
-    if (Object.keys(answers).length > 0 || ageSet) {
-      const progress: StoredProgress = {
-        answers,
-        currentQuestionIndex,
-        age,
-        ageSet,
-        timestamp: Date.now(),
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-    }
-  }, [answers, currentQuestionIndex, age, ageSet]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
+  /**
+   * Registra a resposta selecionada pelo usuário
+   * Armazena apenas em memória durante o quiz
+   */
   const handleAnswerSelect = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
     setAnswers((prev) => ({ ...prev, [currentQuestionIndex]: answerIndex }));
     setAnsweredQuestions((prev) => new Set([...prev, currentQuestionIndex]));
   };
 
+  /**
+   * Avança para a próxima pergunta ou finaliza o quiz
+   * Ao finalizar, salva os IDs das perguntas respondidas no localStorage
+   */
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedAnswer(answers[currentQuestionIndex + 1] ?? null);
     } else {
+      // Fim do quiz: salvar apenas os IDs das perguntas respondidas
+      const answeredQuestionIds = questions.map((q) => q.id);
+      saveAnsweredQuestionIds(answeredQuestionIds);
       setShowResult(true);
     }
   };
 
+  /**
+   * Reinicia o quiz com novas perguntas
+   * As perguntas já respondidas permanecem salvas e serão excluídas do próximo quiz
+   */
   const handleRetake = () => {
-    // Clear localStorage
-    localStorage.removeItem(STORAGE_KEY);
-
     const randomQuestions = getRandomizedQuestions();
     setQuestions(randomQuestions);
     setCurrentQuestionIndex(0);
@@ -96,12 +91,18 @@ export const useQuiz = () => {
     setAgeSet(false);
   };
 
+  /**
+   * Define a idade do usuário
+   */
   const handleSetAge = (userAge: number) => {
     setAge(userAge);
     setAgeSet(true);
   };
 
-  // Calculate scores
+  /**
+   * Calcula a pontuação por categoria
+   * Baseado nas respostas fornecidas pelo usuário
+   */
   const scoresByCategory: Record<Category, { score: number; maxScore: number }> = {
     "Raciocínio lógico": { score: 0, maxScore: 0 },
     "Raciocínio verbal": { score: 0, maxScore: 0 },
