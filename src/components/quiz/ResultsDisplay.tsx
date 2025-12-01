@@ -18,11 +18,18 @@ export interface IQResult {
   explanation?: string;
 }
 
+export interface AnsweredQuestion {
+  question: string;
+  selectedAnswer: string;
+  correctAnswer: string;
+}
+
 interface ResultsDisplayProps {
   iqResult: IQResult;
   totalScore: number;
   maxScore: number;
   onRetake: () => void;
+  answeredQuestions?: AnsweredQuestion[];
 }
 
 export const ResultsDisplay = ({
@@ -30,6 +37,7 @@ export const ResultsDisplay = ({
   totalScore,
   maxScore,
   onRetake,
+  answeredQuestions,
 }: ResultsDisplayProps) => {
   const accuracy = Math.round((totalScore / maxScore) * 100);
 
@@ -94,6 +102,21 @@ export const ResultsDisplay = ({
                     </div>
                   </details>
                 )}
+              </div>
+            )}
+
+            {answeredQuestions && answeredQuestions.length > 0 && (
+              <div className="pt-4 border-t">
+                <h3 className="font-semibold mb-3">Perguntas Respondidas:</h3>
+                <div className="space-y-3">
+                  {answeredQuestions.map((q, index) => (
+                    <div key={index} className="text-sm">
+                      <p><strong>Q{index + 1}:</strong> {q.question}</p>
+                      <p>Resposta escolhida: {q.selectedAnswer}</p>
+                      <p>Resposta correta: {q.correctAnswer}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
