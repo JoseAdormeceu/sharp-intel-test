@@ -26,12 +26,10 @@ export const useQuiz = () => {
     const randomQuestions = getRandomizedQuestions();
     setQuestions(randomQuestions);
 
-    // Try to restore progress from localStorage
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
         const progress: StoredProgress = JSON.parse(stored);
-        // Only restore if less than 24 hours old
         const hoursSinceLastSave = (Date.now() - progress.timestamp) / (1000 * 60 * 60);
         if (hoursSinceLastSave < 24) {
           setAnswers(progress.answers);
@@ -41,7 +39,6 @@ export const useQuiz = () => {
           setAnsweredQuestions(new Set(Object.keys(progress.answers).map(Number)));
           setSelectedAnswer(progress.answers[progress.currentQuestionIndex] ?? null);
         } else {
-          // Clear old data
           localStorage.removeItem(STORAGE_KEY);
         }
       } catch (e) {
@@ -83,9 +80,7 @@ export const useQuiz = () => {
   };
 
   const handleRetake = () => {
-    // Clear localStorage
     localStorage.removeItem(STORAGE_KEY);
-
     const randomQuestions = getRandomizedQuestions();
     setQuestions(randomQuestions);
     setCurrentQuestionIndex(0);
@@ -101,7 +96,9 @@ export const useQuiz = () => {
     setAgeSet(true);
   };
 
-  // Calculate scores
+  // -----------------------------
+  // Cálculo de scores e QI
+  // -----------------------------
   const scoresByCategory: Record<Category, { score: number; maxScore: number }> = {
     "Raciocínio lógico": { score: 0, maxScore: 0 },
     "Raciocínio verbal": { score: 0, maxScore: 0 },
@@ -110,19 +107,30 @@ export const useQuiz = () => {
     "Memória / atenção": { score: 0, maxScore: 0 },
   };
 
-  questions.forEach((question, index) => {
-    const userAnswer = answers[index];
-    const category = question.category;
+  let totalScore = 0;
+  let maxTotalScore = 0;
 
-    scoresByCategory[category].maxScore += 1;
+  questions.forEach((question, index) => {
+    const category = question.category;
+    const points = question.points;
+    const userAnswer = answers[index];
+
+    scoresByCategory[category].maxScore += points;
+    maxTotalScore += points;
 
     if (userAnswer === question.correctAnswer) {
-      scoresByCategory[category].score += 1;
+      scoresByCategory[category].score += points;
+      totalScore += points;
     }
   });
 
-  const totalScore = Object.values(scoresByCategory).reduce((sum, cat) => sum + cat.score, 0);
-  const maxScore = questions.length;
+  // QI: média 100, desvio padrão 15
+  // Fórmula simplificada: QI = 100 + (pontuação - média esperada) * 15 / desvio esperado
+  // Para simplificação sem dados históricos, consideramos média = 50% dos pontos, SD = 15% dos pontos máximos
+  const expectedMean = maxTotalScore * 0.5;
+  const expectedSD = maxTotalScore * 0.15;
+  const IQ = Math.round(100 + ((totalScore - expectedMean) / expectedSD) * 15);
+
   const progress = (Object.keys(answers).length / questions.length) * 100;
 
   return {
@@ -132,12 +140,13 @@ export const useQuiz = () => {
     selectedAnswer,
     answeredQuestions,
     totalScore,
-    maxScore,
+    maxTotalScore,
     scoresByCategory,
     showResult,
     progress,
     age,
     ageSet,
+    IQ,
     handleAnswerSelect,
     handleNext,
     handleRetake,
