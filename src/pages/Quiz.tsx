@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useQuiz } from "@/hooks/useQuiz";
 import { QuestionCard } from "@/components/quiz/QuestionCard";
 import { ResultsDisplay } from "@/components/quiz/ResultsDisplay";
+import { calculateIQ } from "@/utils/iqCalculator";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState, useEffect, useRef } from "react";
@@ -21,26 +22,25 @@ const Quiz = () => {
     maxScore,
     scoresByCategory,
     showResult,
-    progress,
     age,
     ageSet,
-    IQ,
     handleAnswerSelect,
     handleNext,
     handleRetake,
     handleSetAge,
   } = useQuiz();
 
-  const [ageInput, setAgeInput] = useState("25");
+  const [ageInput, setAgeInput] = useState(age.toString());
   const questionRef = useRef<HTMLDivElement>(null);
 
-  // Smooth scroll to top of question when changing questions
+  // Smooth scroll to top when question changes
   useEffect(() => {
     if (questionRef.current) {
       questionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [currentQuestionIndex]);
 
+  // Tela de seleção de idade
   if (!ageSet) {
     return (
       <PageLayout>
@@ -54,7 +54,7 @@ const Quiz = () => {
                     Para calcular o seu QI com precisão, precisamos da sua idade
                   </p>
                 </div>
-
+                
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium mb-2 block">
@@ -62,24 +62,28 @@ const Quiz = () => {
                     </label>
                     <Input
                       type="number"
-                      min="5"
-                      max="100"
+                      min={5}
+                      max={100}
                       value={ageInput}
-                      onChange={(e) => setAgeInput(e.target.value)}
+                      onChange={(e) => setAgeInput(e.target.value.replace(/\D/, ''))}
                       className="text-center text-lg"
                       placeholder="Digite sua idade"
                     />
                   </div>
-
+                  
                   <Button
                     onClick={() => {
-                      const parsedAge = parseInt(ageInput);
-                      if (parsedAge >= 5 && parsedAge <= 100) {
+                      const parsedAge = parseInt(ageInput, 10);
+                      if (!isNaN(parsedAge) && parsedAge >= 5 && parsedAge <= 100) {
                         handleSetAge(parsedAge);
                       }
                     }}
                     className="w-full"
-                    disabled={!ageInput || parseInt(ageInput) < 5 || parseInt(ageInput) > 100}
+                    disabled={
+                      isNaN(parseInt(ageInput, 10)) ||
+                      parseInt(ageInput, 10) < 5 ||
+                      parseInt(ageInput, 10) > 100
+                    }
                   >
                     Começar Teste
                   </Button>
@@ -92,6 +96,7 @@ const Quiz = () => {
     );
   }
 
+  // Carregamento das perguntas
   if (questions.length === 0) {
     return (
       <PageLayout>
@@ -104,11 +109,14 @@ const Quiz = () => {
     );
   }
 
+  // Tela de resultados
   if (showResult) {
+    const iqResult = calculateIQ(scoresByCategory, age);
+
     return (
       <PageLayout>
         <ResultsDisplay
-          iqResult={IQ} // agora já vem do hook
+          iqResult={iqResult}
           totalScore={totalScore}
           maxScore={maxScore}
           onRetake={handleRetake}
@@ -119,6 +127,7 @@ const Quiz = () => {
 
   const isAnswered = answeredQuestions.has(currentQuestionIndex);
 
+  // Tela de quiz
   return (
     <PageLayout>
       <div className="container mx-auto px-4 py-8">
@@ -135,7 +144,7 @@ const Quiz = () => {
             </div>
           </div>
 
-          <Progress value={progress} className="h-2" />
+          <Progress value={(answeredQuestions.size / questions.length) * 100} className="h-2" />
 
           <QuestionCard
             question={currentQuestion}
