@@ -6,7 +6,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useQuiz } from "@/hooks/useQuiz";
 import { QuestionCard } from "@/components/quiz/QuestionCard";
 import { ResultsDisplay } from "@/components/quiz/ResultsDisplay";
-import { calculateIQ } from "@/utils/iqCalculator";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState, useEffect, useRef } from "react";
@@ -25,6 +24,7 @@ const Quiz = () => {
     progress,
     age,
     ageSet,
+    IQ,
     handleAnswerSelect,
     handleNext,
     handleRetake,
@@ -54,7 +54,7 @@ const Quiz = () => {
                     Para calcular o seu QI com precisão, precisamos da sua idade
                   </p>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium mb-2 block">
@@ -70,8 +70,8 @@ const Quiz = () => {
                       placeholder="Digite sua idade"
                     />
                   </div>
-                  
-                  <Button 
+
+                  <Button
                     onClick={() => {
                       const parsedAge = parseInt(ageInput);
                       if (parsedAge >= 5 && parsedAge <= 100) {
@@ -105,12 +105,10 @@ const Quiz = () => {
   }
 
   if (showResult) {
-    const iqResult = calculateIQ(scoresByCategory, age);
-
     return (
       <PageLayout>
         <ResultsDisplay
-          iqResult={iqResult}
+          iqResult={IQ} // agora já vem do hook
           totalScore={totalScore}
           maxScore={maxScore}
           onRetake={handleRetake}
