@@ -15,7 +15,8 @@ export interface Question {
 }
 
 const questionPool: Question[] = [
- { id: 1, category: "Raciocínio lógico", question: "Qual número completa a sequência: 3, 9, 15, 21, ?", options: ["25", "27", "29", "33"], correctAnswer: 1, points: 10 },
+  // Raciocínio lógico (Logical Reasoning) - 50 Questões
+  { id: 1, category: "Raciocínio lógico", question: "Qual número completa a sequência: 3, 9, 15, 21, ?", options: ["25", "27", "29", "33"], correctAnswer: 1, points: 10 },
   { id: 2, category: "Raciocínio lógico", question: "Qual figura completa a sequência? ▲▼▲▼?", options: ["▼", "▲", "◼️", "◻️"], correctAnswer: 0, points: 10 },
   { id: 3, category: "Raciocínio lógico", question: "Se TODOS os pássaros voam e ESTE animal não voa, então ESTE animal é um pássaro?", options: ["Verdadeiro", "Falso", "Não se pode saber", "Apenas em teoria"], correctAnswer: 1, points: 15 },
   { id: 4, category: "Raciocínio lógico", question: "9, 16, 25, 36, ?", options: ["40", "42", "49", "50"], correctAnswer: 2, points: 10 },
@@ -41,7 +42,7 @@ const questionPool: Question[] = [
   { id: 24, category: "Raciocínio lógico", question: "A B C D E F G. Qual letra está na quarta posição?", options: ["C", "D", "E", "F"], correctAnswer: 1, points: 10 },
   { id: 25, category: "Raciocínio lógico", question: "Complete: 100, 81, 64, 49, ?", options: ["36", "40", "45", "48"], correctAnswer: 0, points: 10 },
   { id: 26, category: "Raciocínio lógico", question: "Qual o erro na sequência: 1, 3, 5, 7, 9, 12?", options: ["1", "5", "9", "12"], correctAnswer: 3, points: 15 },
-  { id: 27, category: "Raciocínio lógico", question: "Se 'VERDE' é '4' e 'AZUL' é '4', o que é 'ROXO'?", options: ["3", "4", "5", "6"], correctAnswer: 0, points: 15 },
+  { id: 27, category: "Raciocínio lógico", question: "Se 'VERDE' é '4' e 'AZUL' é '4', o que é 'ROXO'?", options: ["3", "4", "5", "6"], correctAnswer: 3, points: 15 },
   { id: 28, category: "Raciocínio lógico", question: "Se todos os cães ladram e alguns animais ladram, então todos os animais são cães?", options: ["Verdadeiro", "Falso"], correctAnswer: 1, points: 15 },
   { id: 29, category: "Raciocínio lógico", question: "Qual número completa o padrão: 1, 8, 27, 64, ?", options: ["81", "100", "125", "144"], correctAnswer: 2, points: 15 },
   { id: 30, category: "Raciocínio lógico", question: "Se um espelho está à tua frente, e tu levantas a mão esquerda, o que o teu reflexo faz?", options: ["Levanta a mão esquerda", "Levanta a mão direita", "Baixa as duas mãos", "Não se mexe"], correctAnswer: 1, points: 10 },
