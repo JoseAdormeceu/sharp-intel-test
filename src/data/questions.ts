@@ -15,7 +15,6 @@ export interface Question {
 }
 
 const questionPool: Question[] = [
-  // Raciocínio lógico (Logical Reasoning) - 50 Questões
   { id: 1, category: "Raciocínio lógico", question: "Qual número completa a sequência: 3, 9, 15, 21, ?", options: ["25", "27", "29", "33"], correctAnswer: 1, points: 10 },
   { id: 2, category: "Raciocínio lógico", question: "Qual figura completa a sequência? ▲▼▲▼?", options: ["▼", "▲", "◼️", "◻️"], correctAnswer: 0, points: 10 },
   { id: 3, category: "Raciocínio lógico", question: "Se TODOS os pássaros voam e ESTE animal não voa, então ESTE animal é um pássaro?", options: ["Verdadeiro", "Falso", "Não se pode saber", "Apenas em teoria"], correctAnswer: 1, points: 15 },
@@ -66,8 +65,6 @@ const questionPool: Question[] = [
   { id: 48, category: "Raciocínio lógico", question: "Qual dos seguintes é um número ímpar? 12, 16, 20, 25", options: ["12", "16", "20", "25"], correctAnswer: 3, points: 10 },
   { id: 49, category: "Raciocínio lógico", question: "Se chove, a estrada fica molhada. A estrada está molhada. Conclusão: Choveu. (Falácia da Afirmação do Consequente)", options: ["Verdadeiro", "Falso", "Provavelmente", "Não se pode inferir"], correctAnswer: 3, points: 15 },
   { id: 50, category: "Raciocínio lógico", question: "O que é que se molha ao secar?", options: ["Uma toalha", "Um pano", "Uma esponja", "Uma nuvem"], correctAnswer: 0, points: 15 },
-  
-  // Raciocínio verbal (Verbal Reasoning) - 50 Questões
   { id: 51, category: "Raciocínio verbal", question: "Qual é o sinónimo de 'efémero'?", options: ["duradouro", "transitório", "sólido", "eterno"], correctAnswer: 1, points: 15 },
   { id: 52, category: "Raciocínio verbal", question: "Qual palavra não pertence ao grupo: martelo, chave de fendas, serra, carro?", options: ["martelo", "chave de fendas", "serra", "carro"], correctAnswer: 3, points: 10 },
   { id: 53, category: "Raciocínio verbal", question: "Antónimo de 'prolixo'?", options: ["verboso", "sucinto", "longo", "detalhado"], correctAnswer: 1, points: 15 },
@@ -118,8 +115,6 @@ const questionPool: Question[] = [
   { id: 98, category: "Raciocínio verbal", question: "Complete: Árvore : Floresta :: Ovelha : ?", options: ["Fazenda", "Gado", "Rebanho", "Cerca"], correctAnswer: 2, points: 10 },
   { id: 99, category: "Raciocínio verbal", question: "Qual a palavra que rima com 'caminhar'? Correr, Falar, Nadar, Pisar", options: ["Correr", "Falar", "Nadar", "Pisar"], correctAnswer: 1, points: 10 },
   { id: 100, category: "Raciocínio verbal", question: "Complete: Templo : Religião :: Museu : ?", options: ["História", "Arte", "Ciência", "Turismo"], correctAnswer: 1, points: 10 },
-
-  // Raciocínio matemático (Mathematical Reasoning) - 50 Questões
   { id: 101, category: "Raciocínio matemático", question: "Quanto é $12 \times 9$?", options: ["108", "118", "96", "120"], correctAnswer: 0, points: 10 },
   { id: 102, category: "Raciocínio matemático", question: "Se 4 maçãs custam 8€, quanto custam 10 maçãs?", options: ["12€", "16€", "20€", "24€"], correctAnswer: 2, points: 15 },
   { id: 103, category: "Raciocínio matemático", question: "Sequência: 3, 7, 15, 31, ? (Multiplica por 2 e soma 1)", options: ["47", "61", "63", "67"], correctAnswer: 2, points: 15 },
@@ -170,8 +165,6 @@ const questionPool: Question[] = [
   { id: 148, category: "Raciocínio matemático", question: "Se 3 trabalhadores constroem um muro em 10 dias, quantos dias demoram 6 trabalhadores? (Inversamente proporcional)", options: ["3 dias", "5 dias", "10 dias", "20 dias"], correctAnswer: 1, points: 15 },
   { id: 149, category: "Raciocínio matemático", question: "Qual o próximo número na sequência: 0, 1, 1, 2, 4, 8, ? (Dobro do anterior, a partir do 1)", options: ["10", "12", "15", "16"], correctAnswer: 3, points: 15 },
   { id: 150, category: "Raciocínio matemático", question: "A soma dos ângulos internos de um triângulo é:", options: ["$90^\\circ$", "$180^\\circ$", "$270^\\circ$", "$360^\\circ$"], correctAnswer: 1, points: 10 },
-
-  // Raciocínio espacial (Spatial Reasoning) - 50 Questões
   { id: 151, category: "Raciocínio espacial", question: "Imagina um cubo. Se a face da frente é verde e a de trás é amarela. Se o rodares $90^\\circ$ para a direita, que cor fica na face da frente?", options: ["Verde", "Amarela", "Lateral", "Cima"], correctAnswer: 2, points: 10 },
   { id: 152, category: "Raciocínio espacial", question: "Qual desenho completa o padrão: Triângulo, Quadrado, Triângulo, Quadrado, ?", options: ["Quadrado", "Círculo", "Pentágono", "Triângulo"], correctAnswer: 3, points: 10 },
   { id: 153, category: "Raciocínio espacial", question: "Se o Norte está à tua frente, onde está o Sudeste?", options: ["À tua direita", "À tua esquerda", "Entre a frente e a esquerda", "Entre a frente e a direita"], correctAnswer: 3, points: 15 },
@@ -222,8 +215,6 @@ const questionPool: Question[] = [
   { id: 198, category: "Raciocínio espacial", question: "Rotacione mentalmente o 'V' $90^\\circ$ no sentido anti-horário - qual letra se assemelha?", options: ["<", ">", "∧", "V"], correctAnswer: 0, points: 10 },
   { id: 199, category: "Raciocínio espacial", question: "Se caminhares 5 passos para a frente e 5 para a direita, qual o formato do teu caminho?", options: ["Linha reta", "Diagonal", "Quadrado", "L"], correctAnswer: 3, points: 10 },
   { id: 200, category: "Raciocínio espacial", question: "Quantos ângulos de $90^\\circ$ existem num retângulo?", options: ["2", "3", "4", "5"], correctAnswer: 2, points: 10 },
-
-  // Memória / atenção (Memory / Attention) - 50 Questões
   { id: 201, category: "Memória / atenção", question: "Memorize a sequência: 'gato, rato, cão, peixe, cavalo'. Qual é o quarto animal?", options: ["gato", "cão", "peixe", "cavalo"], correctAnswer: 2, points: 10 },
   { id: 202, category: "Memória / atenção", question: "Observe: 8, 3, 9, 2, 5. Qual número NÃO estava na lista?", options: ["3", "4", "8", "9"], correctAnswer: 1, points: 10 },
   { id: 203, category: "Memória / atenção", question: "Conte quantos 'O' existem nesta frase: 'O gato correu no quintal.'", options: ["2", "3", "4", "5"], correctAnswer: 2, points: 15 },
