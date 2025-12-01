@@ -2,7 +2,21 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Home, RefreshCw } from "lucide-react";
-import { IQResult } from "@/utils/iqCalculator";
+
+export interface SubtestScore {
+  category: string;
+  rawScore: number;
+  maxScore: number;
+  standardizedScore: number;
+}
+
+export interface IQResult {
+  totalIQ: number;
+  subtestScores: SubtestScore[];
+  category?: string;       // Ex: "Normal", "Acima da média"
+  description?: string;
+  explanation?: string;
+}
 
 interface ResultsDisplayProps {
   iqResult: IQResult;
@@ -34,7 +48,9 @@ export const ResultsDisplay = ({
             <div className="text-center space-y-2">
               <p className="text-muted-foreground">O seu QI é</p>
               <div className="text-7xl font-bold">{iqResult.totalIQ}</div>
-              <p className="text-2xl font-semibold text-primary">{iqResult.category}</p>
+              {iqResult.category && (
+                <p className="text-2xl font-semibold text-primary">{iqResult.category}</p>
+              )}
             </div>
 
             <div className="space-y-4 pt-4 border-t">
@@ -63,17 +79,23 @@ export const ResultsDisplay = ({
               </div>
             </div>
 
-            <div className="pt-4 border-t">
-              <p className="text-muted-foreground leading-relaxed mb-4">{iqResult.description}</p>
-              <details className="space-y-2">
-                <summary className="cursor-pointer font-semibold text-sm hover:text-primary">
-                  Ver Explicação Detalhada do Cálculo
-                </summary>
-                <div className="text-sm text-muted-foreground whitespace-pre-line pt-3 pl-4 border-l-2 border-border">
-                  {iqResult.explanation}
-                </div>
-              </details>
-            </div>
+            {(iqResult.description || iqResult.explanation) && (
+              <div className="pt-4 border-t">
+                {iqResult.description && (
+                  <p className="text-muted-foreground leading-relaxed mb-4">{iqResult.description}</p>
+                )}
+                {iqResult.explanation && (
+                  <details className="space-y-2">
+                    <summary className="cursor-pointer font-semibold text-sm hover:text-primary">
+                      Ver Explicação Detalhada do Cálculo
+                    </summary>
+                    <div className="text-sm text-muted-foreground whitespace-pre-line pt-3 pl-4 border-l-2 border-border">
+                      {iqResult.explanation}
+                    </div>
+                  </details>
+                )}
+              </div>
+            )}
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link to="/" className="flex-1">
