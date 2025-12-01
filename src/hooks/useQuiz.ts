@@ -1,61 +1,75 @@
 import { useState, useEffect } from "react";
 import { getRandomizedQuestions, Question, Category } from "@/data/questions";
 
-const USED_QUESTIONS_KEY = "quiz_used_questions";
+const USED_QUESTIONS_KEY = "uniquiz_used_questions";
+const TOTAL_QUESTIONS = 50;
 
 export const useQuiz = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(new Set());
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResult, setShowResult] = useState(false);
+  const [age, setAge] = useState<number>(25);
+  const [ageSet, setAgeSet] = useState(false);
 
-  // Load questions on mount
+  // Carregar perguntas aleatórias
   useEffect(() => {
-    const randomized = getRandomizedQuestions();
-    setQuestions(randomized);
+    const usedIds: number[] = JSON.parse(localStorage.getItem(USED_QUESTIONS_KEY) || "[]");
+    let newQuestions = getRandomizedQuestions().filter(q => !usedIds.includes(q.id));
+
+    if (newQuestions.length < TOTAL_QUESTIONS) {
+      newQuestions = getRandomizedQuestions(); // repetir se não houver suficientes
+    }
+
+    setQuestions(newQuestions.slice(0, TOTAL_QUESTIONS));
   }, []);
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const handleSetAge = (userAge: number) => {
+    setAge(userAge);
+    setAgeSet(true);
+  };
 
   const handleAnswerSelect = (answerIndex: number) => {
+    const question = questions[currentQuestionIndex];
+    if (!question) return;
+
     setSelectedAnswer(answerIndex);
-    setAnswers((prev) => ({ ...prev, [currentQuestionIndex]: answerIndex }));
+    setAnswers(prev => ({ ...prev, [currentQuestionIndex]: answerIndex }));
+    setAnsweredQuestions(prev => new Set([...prev, currentQuestionIndex]));
   };
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+      setCurrentQuestionIndex(prev => prev + 1);
       setSelectedAnswer(answers[currentQuestionIndex + 1] ?? null);
     } else {
+      // Guardar IDs respondidas no localStorage
+      const usedIds = JSON.parse(localStorage.getItem(USED_QUESTIONS_KEY) || "[]");
+      const newUsedIds = [
+        ...usedIds,
+        ...questions.map(q => q.id)
+      ];
+      localStorage.setItem(USED_QUESTIONS_KEY, JSON.stringify([...new Set(newUsedIds)]));
+
       setShowResult(true);
-      saveUsedQuestionIds();
     }
   };
 
   const handleRetake = () => {
-    const randomized = getRandomizedQuestions();
-    setQuestions(randomized);
+    const newQuestions = getRandomizedQuestions().slice(0, TOTAL_QUESTIONS);
+    setQuestions(newQuestions);
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
+    setAnsweredQuestions(new Set());
     setAnswers({});
     setShowResult(false);
+    setAgeSet(false);
+    setAge(25);
   };
 
-  // Save IDs of questions answered this round to localStorage
-  const saveUsedQuestionIds = () => {
-    try {
-      const stored = localStorage.getItem(USED_QUESTIONS_KEY);
-      const usedIds: number[] = stored ? JSON.parse(stored) : [];
-      const answeredIds = Object.keys(answers).map((i) => questions[parseInt(i)].id);
-      const newUsed = Array.from(new Set([...usedIds, ...answeredIds]));
-      localStorage.setItem(USED_QUESTIONS_KEY, JSON.stringify(newUsed));
-    } catch (e) {
-      console.error("Failed to save used question IDs", e);
-    }
-  };
-
-  // Calculate scores by category
+  // Cálculo das pontuações
   const scoresByCategory: Record<Category, { score: number; maxScore: number }> = {
     "Raciocínio lógico": { score: 0, maxScore: 0 },
     "Raciocínio verbal": { score: 0, maxScore: 0 },
@@ -65,30 +79,30 @@ export const useQuiz = () => {
   };
 
   questions.forEach((q, index) => {
-    const userAnswer = answers[index];
     scoresByCategory[q.category].maxScore += q.points;
-    if (userAnswer === q.correctAnswer) {
+    if (answers[index] === q.correctAnswer) {
       scoresByCategory[q.category].score += q.points;
     }
   });
 
-  const totalScore = Object.values(scoresByCategory).reduce((sum, c) => sum + c.score, 0);
-  const maxScore = Object.values(scoresByCategory).reduce((sum, c) => sum + c.maxScore, 0);
-  const progress = (Object.keys(answers).length / questions.length) * 100;
+  const totalScore = Object.values(scoresByCategory).reduce((acc, cat) => acc + cat.score, 0);
+  const maxScore = Object.values(scoresByCategory).reduce((acc, cat) => acc + cat.maxScore, 0);
 
   return {
     questions,
-    currentQuestion,
+    currentQuestion: questions[currentQuestionIndex],
     currentQuestionIndex,
     selectedAnswer,
-    answers,
-    showResult,
-    progress,
+    answeredQuestions,
     totalScore,
     maxScore,
     scoresByCategory,
+    showResult,
+    age,
+    ageSet,
     handleAnswerSelect,
     handleNext,
     handleRetake,
+    handleSetAge,
   };
 };
