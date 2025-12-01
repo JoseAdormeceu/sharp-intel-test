@@ -70,7 +70,7 @@ const questionPool: Question[] = [
 export const getAllQuestions = (): Question[] => [...questionPool];
 
 const STORAGE_KEY = 'quiz_used_questions';
-const TOTAL_QUESTIONS = 15;
+const TOTAL_QUESTIONS = 50;
 
 const getUsedQuestions = (): number[] => {
   try {
