@@ -214,7 +214,7 @@ const questionPool: Question[] = [
   { id: 197, category: "Raciocínio espacial", question: "Qual a peça que falta para completar o quadrado? (Quadrado dividido em 4 quartos, falta o superior esquerdo)", options: ["Inferior direito", "Superior direito", "Superior esquerdo", "Inferior esquerdo"], correctAnswer: 2, points: 10 },
   { id: 198, category: "Raciocínio espacial", question: "Rotacione mentalmente a letra 'V' 90° no sentido anti-horário - qual letra se assemelha?", options: ["<", ">", "∧", "V"], correctAnswer: 0, points: 10 },
   { id: 199, category: "Raciocínio espacial", question: "Se caminhares 5 passos para a frente e 5 para a direita, qual o formato do teu caminho?", options: ["Linha reta", "Diagonal", "Quadrado", "L"], correctAnswer: 3, points: 10 },
-  { id: 200, category: "Raciocínio espacial", question: "Quantos ângulos de 90° existem num retângulo?", options: ["2", "3", "4", "5"], correctAnswer: 2, points: 10 }
+  { id: 200, category: "Raciocínio espacial", question: "Quantos ângulos de 90° existem num retângulo?", options: ["2", "3", "4", "5"], correctAnswer: 2, points: 10 },
   { id: 201, category: "Memória / atenção", question: "Memorize a sequência: 'gato, rato, cão, peixe, cavalo'. Qual é o quarto animal?", options: ["gato", "cão", "peixe", "cavalo"], correctAnswer: 2, points: 10 },
   { id: 202, category: "Memória / atenção", question: "Observe: 8, 3, 9, 2, 5. Qual número NÃO estava na lista?", options: ["3", "4", "8", "9"], correctAnswer: 1, points: 10 },
   { id: 203, category: "Memória / atenção", question: "Conte quantos 'O' existem nesta frase: 'O gato correu no quintal.'", options: ["2", "3", "4", "5"], correctAnswer: 2, points: 15 },
